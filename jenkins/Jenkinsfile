@@ -1,5 +1,8 @@
 pipeline {
     agent any
+     tools {
+        maven 'maven_3.9.6' // Must match Jenkins configuration exactly
+    }
     options {
         skipStagesAfterUnstable()
     }
