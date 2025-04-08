@@ -4,6 +4,23 @@ pipeline {
         skipStagesAfterUnstable()
     }
     stages {
+stage('Setup Environment') {
+    steps {
+        script {
+            // Completely override PATH to exclude system Maven
+            def mvnHome = tool 'maven_3.9.6'
+            env.PATH = "${mvnHome}/bin:${env.JAVA_HOME}/bin:${env.PATH}"
+            
+            // Verify which Maven is being used
+            sh '''
+                echo "Full PATH: ${PATH}"
+                which mvn
+                mvn --version
+            '''
+        }
+    }
+}
+        
         stage('Build') {
             steps {
                 sh 'mvn -B -DskipTests clean package'
